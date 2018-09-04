@@ -10,7 +10,8 @@ const (
 		Name: "volume-00000001",
 		PoolName: "pool-00000001",
 		Encryption:  "NO"
-	}s
+	}
+	
 	RootVolumeResponseJson = `{
 		"response": {
 		  "status": 0,
