@@ -47,8 +47,43 @@ func TestGetVolumesOK(t *testing.T) {
 		t.Errorf(err.Error())
 	}
 
-	assert.Equal(t, Volume1Name, vols[0].Name, "volume name should be equal")
-	assert.Equal(t, 1, len(vols), "volume count should be equal")
-	assert.Equal(t, Volume1PoolName, vols[0].PoolName, "pool name should be equal")
-	assert.Equal(t, Volume1Encryption, vols[0].Encryption, "vol encryption should be equal")
+	assert.Equal(t, 2, len(vols), "volume count should be equal")
+
+	assert.Equal(t, mockedVol1.Name, vols[0].Name, "volume name should be equal")
+	assert.Equal(t, mockedVol2.Name, vols[1].Name, "volume name should be equal")
+
+	assert.Equal(t, mockedVol1.PoolName, vols[0].PoolName, "pool name should be equal")
+	assert.Equal(t, mockedVol2.PoolName, vols[1].PoolName, "pool name should be equal")
+
+	assert.Equal(t, mockedVol1.Encryption, vols[0].Encryption, "vol encryption should be equal")
+	assert.Equal(t, mockedVol1.VirtualCapacity, vols[0].VirtualCapacity, "vol virtual capacity should be equal")
+}
+
+func TestGetMirrorJobsOK(t *testing.T) {
+
+	c, url := getClientAndApiUrl(
+		VolumesPath)
+
+	httpmock.Activate()
+
+	httpmock.RegisterResponder(http.MethodGet, url,
+		httpmock.NewStringResponder(200, RootVolumeResponseJson))
+
+	defer httpmock.DeactivateAndReset()
+
+	vols, err := c.GetVolumes()
+	if err != nil {
+		t.Errorf(err.Error())
+	}
+
+	assert.Equal(t, 2, len(vols), "volume count should be equal")
+
+	assert.Equal(t, mockedVol1.Name, vols[0].Name, "volume name should be equal")
+	assert.Equal(t, mockedVol2.Name, vols[1].Name, "volume name should be equal")
+
+	assert.Equal(t, mockedVol1.PoolName, vols[0].PoolName, "pool name should be equal")
+	assert.Equal(t, mockedVol2.PoolName, vols[1].PoolName, "pool name should be equal")
+
+	assert.Equal(t, mockedVol1.Encryption, vols[0].Encryption, "vol encryption should be equal")
+	assert.Equal(t, mockedVol1.VirtualCapacity, vols[0].VirtualCapacity, "vol virtual capacity should be equal")
 }

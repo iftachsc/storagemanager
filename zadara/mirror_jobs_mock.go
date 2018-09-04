@@ -1,14 +1,14 @@
 package zadara
 
 var (
-	mockedVol1 Volume = Volume{
+	mockedMirrorJob1 Volume = Volume{
 		Name:            "volume-00000001",
 		PoolName:        "pool-00000001",
 		Encryption:      "NO",
 		VirtualCapacity: 200,
 	}
 
-	mockedVol2 Volume = Volume{
+	mockedMirrorJob2 Volume = Volume{
 		Name:            "volume-00000002",
 		PoolName:        "pool-00000001",
 		Encryption:      "NO",
@@ -17,7 +17,7 @@ var (
 )
 
 const (
-	RootVolumeResponseJson = `{
+	RootMirrorResponseJson = `{
 		"response": {
 		  "status": 0,
 		  "volumes": [

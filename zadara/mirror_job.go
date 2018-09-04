@@ -1,6 +1,6 @@
 package zadara
 
-type Mirror struct {
+type Volume struct {
 	Name            string  `json:"name"`
 	DisplauName     string  `json:"display_name"`
 	CgName          string  `json:"cg_name"`
@@ -12,12 +12,12 @@ type Mirror struct {
 	Encryption      string  `json:"encryption"`
 }
 
-type MirrorResponse struct {
+type VolumeResponse struct {
 	Status  int      `json:"status"`
 	Volumes []Volume `json:"volumes"`
 	Count   int      `json:"count"`
 }
 
-type RootMirrorResponse struct {
-	Response MirrorResponse `json:"response"`
+type RootVolumeResponse struct {
+	Response VolumeResponse `json:"response"`
 }
