@@ -1,17 +1,10 @@
-package zadara_test
-
-import (
-	
-	"github.com/iftachsc/storagemanager/zadara"
-)
+package zadara
 
 const (
-	MockVolume1 = zadara.Volume{
-		Name: "volume-00000001",
-		PoolName: "pool-00000001",
-		Encryption:  "NO"
-	}
-	
+	Volume1Name       = "volume-00000001"
+	Volume1PoolName   = "pool-00000001"
+	Volume1Encryption = "NO"
+
 	RootVolumeResponseJson = `{
 		"response": {
 		  "status": 0,

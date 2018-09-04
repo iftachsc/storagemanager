@@ -1,11 +1,10 @@
-package zadara_test
+package zadara
 
 import (
 	"fmt"
 	"net/http"
 	"testing"
 
-	"github.com/iftachsc/storagemanager/zadara"
 	"github.com/jarcoal/httpmock"
 	"github.com/stretchr/testify/assert"
 )
@@ -25,16 +24,16 @@ const (
 	VpsaToken    = "token"
 )
 
-func getClient(apiPath string) (*ZadaraClient,string) {
-	return zadara.NewClient(zadara.ZadaraCredentials{ VpsaHost, VpsaUser, 
-		VpsaPassword, VpsaToken }
-	), fmt.Sprintf("http://%s/%s", VpsaHost, )
+func getClientAndApiUrl(apiPath string) (*ZadaraClient, string) {
+	return NewClient(ZadaraCredentials{VpsaHost, VpsaUser,
+		VpsaPassword, VpsaToken}), fmt.Sprintf("http://%s/%s", VpsaHost, apiPath)
 }
 
 //API Tests
 func TestGetVolumesOK(t *testing.T) {
 
-	c, url := getClientAndApiUrl(zadara.VolumesPath)
+	c, url := getClientAndApiUrl(
+		VolumesPath)
 
 	httpmock.Activate()
 
@@ -48,8 +47,8 @@ func TestGetVolumesOK(t *testing.T) {
 		t.Errorf(err.Error())
 	}
 
-	assert.Equal(t, 2, len(vols), "volume count should be equal")
-	assert.Equal(t, MockVolume1.Name, vols[0].Name, "volume name should be equal")
-	assert.Equal(t, MockVolume1.PoolName, vols[0].PoolName, "pool name should be equal")
-	assert.Equal(t, MockVolume1.Encryption, vols[0].Encryption, "vol names should be equal")
+	assert.Equal(t, Volume1Name, vols[0].Name, "volume name should be equal")
+	assert.Equal(t, 1, len(vols), "volume count should be equal")
+	assert.Equal(t, Volume1PoolName, vols[0].PoolName, "pool name should be equal")
+	assert.Equal(t, Volume1Encryption, vols[0].Encryption, "vol encryption should be equal")
 }
