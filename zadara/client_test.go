@@ -1,6 +1,7 @@
 package zadara
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"testing"
@@ -86,4 +87,34 @@ func TestGetMirrorJobsOK(t *testing.T) {
 
 	assert.Equal(t, mockedVol1.Encryption, vols[0].Encryption, "vol encryption should be equal")
 	assert.Equal(t, mockedVol1.VirtualCapacity, vols[0].VirtualCapacity, "vol virtual capacity should be equal")
+}
+
+func TestGetMirrorJobsOk(t *testing.T) {
+	c, url := getClientAndApiUrl(
+		MirrorsPath)
+
+	httpmock.Activate()
+
+	httpmock.RegisterResponder(http.MethodGet, url,
+		httpmock.NewStringResponder(200, RootMirrorResponseJson))
+
+	defer httpmock.DeactivateAndReset()
+
+	mirrors, err := c.GetMirrors()
+	if err != nil {
+		t.Errorf(err.Error())
+	}
+
+	s, _ := json.Marshal(mirrors[0]
+	)
+	println(string(s))
+	assert.Equal(t, 1, len(mirrors), "volume count should be equal")
+
+	assert.Equal(t, mockedMirror1.Name, mirrors[0].Name, "mirror name should be equal")
+	assert.Equal(t, mockedMirror1.Source.VpsaName, mirrors[0].Source.VpsaName, "source vpsa name should be equal")
+	assert.Equal(t, mockedMirror1.Source.Provider, mirrors[0].Source.Provider, "source provider name should be equal")
+
+	assert.Equal(t, mockedMirror1.Destination.VpsaName, mirrors[0].Destination.VpsaName, "dest vpsa name should be equal")
+	assert.Equal(t, mockedMirror1.Destination.Provider, mirrors[0].Destination.Provider, "dest provider name should be equal")
+
 }

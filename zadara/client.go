@@ -59,3 +59,15 @@ func (c *ZadaraClient) GetVolumes() ([]Volume, error) {
 	//println("volume:",zadara.Response.Volumes[0].Vol_name)
 	return resp.Response.Volumes, nil
 }
+
+func (c *ZadaraClient) GetMirrors() ([]Mirror, error) {
+
+	jsonBytes, err := c.invokeGet(MirrorsPath) //This reads raw request body
+	if err != nil {
+		return nil, err
+	}
+
+	var resp RootMirrorResponse
+	json.Unmarshal(jsonBytes, &resp)
+	return resp.Response.Mirrors, nil
+}
